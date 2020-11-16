@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="day" type="it.marcoconfalonieri.plethonian.calendar.PlethonianDay" />
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <div class="${(cc.attrs.day == app.today)? 'today' : ''} day-container">
+                <div class="cal ${(not empty cc.attrs.day.monthFestivity)? 'holiday' : 'no-holiday'}">
+                    <div style="width: 100%; text-align: center">
+                    <ui:fragment rendered="${not msg.containsKey('dayname.'.concat(cc.attrs.day.label))}">
+                        <span class="unnamed-day">#{cc.attrs.day.label}</span>
+                    </ui:fragment>
+                    <ui:fragment rendered="${msg.containsKey('dayname.'.concat(cc.attrs.day.label))}">
+                        <span class="named-day">#{msg['dayname.'.concat(cc.attrs.day.label)]}</span>
+                    </ui:fragment>
+                    </div>
+                </div>
+                <div>
+                    <p style="font-size: medium">#{cc.attrs.day.dayOfYear}</p>
+                    <p style="font-size: xx-small">#{cc.attrs.day.gregorianDate}</p>
+                </div>
+            </div>
+    </cc:implementation>
+</html>

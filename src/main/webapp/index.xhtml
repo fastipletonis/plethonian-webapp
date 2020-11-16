@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html lang="${lang.locale.language}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:plethonian="http://xmlns.jcp.org/jsf/composite/plethonian"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <head>
+        <title>#{msg['title.head']}</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <link rel="stylesheet" href="${request.contextPath}/resources/css/default.css" />
+    </head>
+    <h:body>
+        <div class="head-div">
+            <h1>#{msg['title.body']}</h1>
+        </div>
+        <div class="center">
+            <h:form>
+                <h:commandLink actionListener="${lang.changeTo('la')}">
+                    <h:graphicImage value="/resources/img/la.png" />
+                </h:commandLink>
+                <h:commandLink actionListener="${lang.changeTo('it')}">
+                    <h:graphicImage value="/resources/img/it.png" />
+                </h:commandLink>
+                <h:commandLink actionListener="${lang.changeTo('en')}">
+                    <h:graphicImage value="/resources/img/en.png" />
+                </h:commandLink>
+            </h:form>
+        </div>
+        <div style="text-align: center">
+            <h2>#{msg['months.'.concat(app.today.month)]}</h2>
+        </div>
+        <ui:repeat value="#{app.currentMonthMatrix.entrySet()}" var="week">
+            <div style="text-align: center; width: 100%">
+                <ui:fragment rendered="${msg.containsKey('weeks.'.concat(week.key))}">
+                    <h3>#{msg['weeks.'.concat(week.key)]}</h3>
+                </ui:fragment>
+            </div>
+            <div class="center" style="width: 100%">
+                <ui:repeat value="#{week.value}" var="day">
+                    <plethonian:calendar-day day="#{day}" />
+                </ui:repeat>
+            </div>
+        </ui:repeat>
+        <footer>
+            <p>#{msg['footer.cookies']}</p>
+            <p>#{msg['footer.author']}</p>
+        </footer>
+    </h:body>
+</html>

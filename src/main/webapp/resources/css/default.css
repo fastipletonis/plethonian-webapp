@@ -1,0 +1,104 @@
+/*
+ *     plethonian-webapp - Plethonian calendar Web Application
+ *
+ *     Copyright (C) 2020 Marco Confalonieri <marco at marcoconfalonieri.it>
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Affero General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU Affero General Public License for more details.
+ *
+ *     You should have received a copy of the GNU Affero General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+body {
+    background-color: #d7ba9a;
+    background-image: url("../img/paper.jpg");
+    font-family: sans-serif;
+}
+
+.head-div {
+    text-align: center;
+    background-color: #000000;
+    color: white;
+}
+
+.holiday {
+    background-color: #660000;
+    color: white;
+}
+
+.no-holiday {
+    background-color: #000066;
+    color: white;
+}
+
+.center {
+  display: block;
+  margin-left: 2em;
+  margin-right: 2em;
+  text-align: center;
+  overflow: hidden;
+}
+
+.day-container {
+    float: left;
+    width: 12%;
+    height: 10em;
+    border: #000000 solid thin;
+    display: block;
+    overflow: auto;
+    margin: 0.5%;
+}
+
+.cal {
+    height: 6em;
+    align-items: center;
+    display: flex;
+    
+}
+.unnamed-day {
+    font-size: 5em;
+}
+
+.named-day {
+    font-size: x-large;
+}
+
+th {
+    text-align: left;
+}
+
+.day-container p {
+    font-size: x-small;
+    line-height: 0.5;
+}
+
+.today {
+    background-color: #cc6600;
+    color: white;
+}
+
+.today-span {
+    height: 1px;
+    width: 1px;
+    position: absolute;
+    overflow: hidden;
+    top: -10px;
+}
+
+footer {
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+div img {
+    margin: 2px;
+}

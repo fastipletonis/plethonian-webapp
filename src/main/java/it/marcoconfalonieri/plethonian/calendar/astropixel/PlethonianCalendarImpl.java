@@ -47,7 +47,7 @@ import java.util.stream.Stream;
 public class PlethonianCalendarImpl implements PlethonianCalendar {
     private static final String[] DAY_LABELS = { "new", "2", "3", "4", "5", "6",
         "7", "8", "7", "6", "5", "4", "3", "2", "half", "2", "3", "4", "5", "6",
-        "7", "8", "7", "6", "5", "4", "3", "2", "(", ")(" };
+        "7", "8", "7", "6", "5", "4", "3", "2", "old", "oldnew" };
     /**
      * AstroPixel's moon phases table.
      */

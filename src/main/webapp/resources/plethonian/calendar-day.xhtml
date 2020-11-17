@@ -2,7 +2,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:cc="http://xmlns.jcp.org/jsf/composite"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
     <!-- INTERFACE -->
@@ -14,7 +13,7 @@
     <cc:implementation>
         <div class="${(cc.attrs.day == app.today)? 'today' : ''} day-container">
                 <div class="cal ${(not empty cc.attrs.day.monthFestivity)? 'holiday' : 'no-holiday'}">
-                    <div style="width: 100%; text-align: center">
+                    <div style="width: 100%; text-align: center; padding: 2px">
                     <ui:fragment rendered="${not msg.containsKey('dayname.'.concat(cc.attrs.day.label))}">
                         <span class="unnamed-day">#{cc.attrs.day.label}</span>
                     </ui:fragment>

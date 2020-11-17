@@ -9,6 +9,7 @@
             <default-locale>la</default-locale>
             <supported-locale>it</supported-locale>
             <supported-locale>en</supported-locale>
+            <supported-locale>lij</supported-locale>
         </locale-config>
         <resource-bundle>
             <base-name>it.marcoconfalonieri.plethonian.webapp.webpage</base-name>

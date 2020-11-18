@@ -4,8 +4,8 @@
  *     Copyright (C) 2020 Marco Confalonieri <marco at marcoconfalonieri.it>
  *
  *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU Affero General Public License as published by
- *     the Free Software Foundation, either version 3 of the License, or
+ *     it under the terms of the GNU Affero General Public License as published
+ *     by the Free Software Foundation, either version 3 of the License, or
  *     (at your option) any later version.
  *
  *     This program is distributed in the hope that it will be useful,
@@ -20,7 +20,7 @@
 package it.marcoconfalonieri.plethonian.calendar;
 
 /**
- * Festivities.
+ * Festivities that are repeated monthly.
  */
 public enum MonthlyFestivity {
     JUPITER(1), NEPTUNE(8), JUNO(15), GODS(22),

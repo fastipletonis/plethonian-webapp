@@ -25,8 +25,10 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <head>
         <title>#{msg['title.head']}</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <link rel="stylesheet" href="${request.contextPath}/resources/css/default.css" />
+        <link rel="icon" type="image/png" href="${request.contextPath}/resources/img/pletho.png" />
+        <link rel="shortcut icon" href="${request.contextPath}/favicon.ico" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta name="keywords" content="pletho, pletone, calendar, calendario, fasti, fasti pletonis, fastipletonis" />
     </head>
     <h:body>
@@ -48,6 +50,11 @@
                     <h:graphicImage alt="Lìgure" value="/resources/img/lij.png" />
                 </h:commandLink>
             </h:form>
+        </div>
+        <div class="center-flex">
+            <ui:repeat value="#{app.currentYear.months}" var="month">
+                <plethonian:month-frame month="#{month}" />
+            </ui:repeat>
         </div>
         <div style="text-align: center">
             <h2>#{msg['months.'.concat(app.today.month)]}</h2>

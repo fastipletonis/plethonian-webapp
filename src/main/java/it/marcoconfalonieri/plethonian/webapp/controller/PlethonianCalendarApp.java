@@ -4,8 +4,8 @@
  *     Copyright (C) 2020 Marco Confalonieri <marco at marcoconfalonieri.it>
  *
  *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU Affero General Public License as published by
- *     the Free Software Foundation, either version 3 of the License, or
+ *     it under the terms of the GNU Affero General Public License as published
+ *     by the Free Software Foundation, either version 3 of the License, or
  *     (at your option) any later version.
  *
  *     This program is distributed in the hope that it will be useful,
@@ -23,6 +23,7 @@ import it.marcoconfalonieri.plethonian.calendar.PlethonianCalendar;
 import it.marcoconfalonieri.plethonian.calendar.PlethonianDay;
 import it.marcoconfalonieri.plethonian.calendar.PlethonianMonth;
 import it.marcoconfalonieri.plethonian.calendar.PlethonianWeekName;
+import it.marcoconfalonieri.plethonian.calendar.PlethonianYear;
 import it.marcoconfalonieri.plethonian.calendar.astropixel.PlethonianCalendarImpl;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -49,6 +50,8 @@ public class PlethonianCalendarApp {
     private PlethonianDay today;
 
     private PlethonianMonth currentMonth;
+    
+    private PlethonianYear currentYear;
 
     private final SortedMap<PlethonianWeekName, SortedSet<PlethonianDay>> currentMonthMatrix = new TreeMap<>();
 
@@ -67,8 +70,9 @@ public class PlethonianCalendarApp {
     protected void updateData() {
         LocalDate ld = LocalDate.now();
         if (today == null || !today.getGregorianDate().equals(ld)) {
-            today = calendar.getDay(ld);
+            currentYear = calendar.getYear(ld);
             currentMonth = calendar.getMonth(ld);
+            today = calendar.getDay(ld);
             loadCurrentMonthMatrix();
         }
     }
@@ -141,4 +145,13 @@ public class PlethonianCalendarApp {
         return currentMonthMatrix;
     }
 
+    /**
+     * Getter for the current year.
+     * 
+     * @return the current year
+     */
+    public PlethonianYear getCurrentYear() {
+        updateData();
+        return currentYear;
+    }
 }

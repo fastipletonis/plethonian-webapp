@@ -57,6 +57,30 @@ body {
     margin: 0.5%;
 }
 
+.center-flex {
+  display:         flex;
+  flex-wrap:       wrap;
+  justify-content: center;
+}
+
+.month-container {
+    width: 6em;
+    height: 6em;
+    border: #000000 solid thin;
+    overflow: auto;
+    margin: 0.5%;
+    background-color: #000066;
+    color: white;
+    font-size: x-small;
+    align-items: center;
+    text-align: center;
+    vertical-align: central;
+}
+
+.month-container p {
+    line-height: 0.5;
+}
+
 .cal {
     height: 6em;
     align-items: center;

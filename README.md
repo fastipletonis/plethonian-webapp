@@ -16,3 +16,7 @@ These are the general rules:
 - the year starts at the beginning of the first month AFTER the winter solstice;
 - each month is divided in four weeks, with one or two days outside the week
 cycle, depending if it's a 29-days or a 30-days month.
+
+## References
+
+-  G.G. Pletone, Trattato delle Leggi, Victrix Edizioni, 2012, URL: https://www.victrixedizioni.it/collane/trattato-delle-leggi/

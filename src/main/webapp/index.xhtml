@@ -9,6 +9,7 @@
         <title>#{msg['title.head']}</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <link rel="stylesheet" href="${request.contextPath}/resources/css/default.css" />
+        <meta name="keywords" content="pletho, pletone, calendar, calendario, fasti, fasti pletonis, fastipletonis" />
     </head>
     <h:body>
         <div class="head-div">
@@ -48,6 +49,7 @@
         <footer>
             <p>#{msg['footer.cookies']}</p>
             <p>#{msg['footer.author']}</p>
+            <p><h:outputText escape="false" value="#{msg['footer.info']}"/></p>
         </footer>
     </h:body>
 </html>

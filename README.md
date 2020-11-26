@@ -19,4 +19,9 @@ cycle, depending if it's a 29-days or a 30-days month.
 
 ## References
 
--  G.G. Pletone, Trattato delle Leggi, Victrix Edizioni, 2012, URL: https://www.victrixedizioni.it/collane/trattato-delle-leggi/
+-  G.G. Pletone, [Trattato delle Leggi](https://www.victrixedizioni.it/collane/trattato-delle-leggi/), Victrix Edizioni, 2012
+
+## Astronomical data
+
+ - Solstice and Equinox Table Courtesy of Fred Espenak, [www.Astropixels.com](http://www.Astropixels.com)
+ - Moon Phases Table courtesy of Fred Espenak, [www.Astropixels.com](http://www.Astropixels.com)

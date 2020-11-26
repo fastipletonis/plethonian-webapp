@@ -11,14 +11,14 @@
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-        <div class="${(cc.attrs.day == app.today)? 'today' : ''} day-container">
-                <div class="cal ${(not empty cc.attrs.day.monthFestivity)? 'holiday' : 'no-holiday'}">
+        <div class="${(cc.attrs.day == req.today)? 'today' : ''} day-container">
+            <div class="cal ${(not empty cc.attrs.day.festivity)? (cc.attrs.day.festivity.consecrated? 'consecrated' : 'holiday') : 'no-holiday'}">
                     <div style="width: 100%; text-align: center; padding: 2px">
-                    <ui:fragment rendered="${not msg.containsKey('dayname.'.concat(cc.attrs.day.label))}">
-                        <span class="unnamed-day">#{cc.attrs.day.label}</span>
+                        <ui:fragment rendered="${not msg.containsKey('dayname.'.concat(app.getDayLabel(cc.attrs.day)))}">
+                        <span class="unnamed-day">#{app.getDayLabel(cc.attrs.day)}</span>
                     </ui:fragment>
-                    <ui:fragment rendered="${msg.containsKey('dayname.'.concat(cc.attrs.day.label))}">
-                        <span class="named-day">#{msg['dayname.'.concat(cc.attrs.day.label)]}</span>
+                    <ui:fragment rendered="${msg.containsKey('dayname.'.concat(app.getDayLabel(cc.attrs.day)))}">
+                        <span class="named-day">#{msg['dayname.'.concat(app.getDayLabel(cc.attrs.day))]}</span>
                     </ui:fragment>
                     </div>
                 </div>

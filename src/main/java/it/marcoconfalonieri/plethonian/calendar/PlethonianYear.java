@@ -25,10 +25,9 @@ import java.util.Objects;
 import java.util.SortedSet;
 
 /**
- * Plethonian year POJO.
+ * Plethonian year.
  */
 public class PlethonianYear implements Serializable, Comparable {
-
     /**
      * Serial version ID.
      */
@@ -113,8 +112,7 @@ public class PlethonianYear implements Serializable, Comparable {
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof PlethonianYear)) {
-            throw new IllegalArgumentException(
-                    "Argument must be of PlethonianMonth type.");
+            return false;
         }
         PlethonianYear py = (PlethonianYear) obj;
         return this.firstDay.equals(py.firstDay);

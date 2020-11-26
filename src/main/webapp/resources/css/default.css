@@ -19,7 +19,7 @@
 
 body {
     background-color: #d7ba9a;
-    background-image: url("../img/paper.jpg");
+    background-image: url("../images/paper.jpg");
     font-family: sans-serif;
 }
 
@@ -36,6 +36,11 @@ body {
 
 .no-holiday {
     background-color: #000066;
+    color: white;
+}
+
+.consecrated {
+    background-color: #660066;
     color: white;
 }
 
@@ -81,6 +86,30 @@ body {
     line-height: 0.5;
 }
 
+/* unvisited link */
+.month-container a:link {
+  color: white;
+  text-decoration: none;
+}
+
+/* visited link */
+.month-container a:visited {
+  color: white;
+  text-decoration: none;
+}
+
+/* mouse over link */
+.month-container a:hover {
+  color: cyan;
+  text-decoration: none;
+}
+
+/* selected link */
+.month-container a:active {
+  color: yellow;
+  text-decoration: none;
+}
+
 .cal {
     height: 6em;
     align-items: center;
@@ -115,6 +144,10 @@ th {
     position: absolute;
     overflow: hidden;
     top: -10px;
+}
+
+.month-selected {
+    background-color: #006600;
 }
 
 footer {

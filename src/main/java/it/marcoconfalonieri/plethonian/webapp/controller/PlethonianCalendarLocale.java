@@ -41,6 +41,10 @@ public class PlethonianCalendarLocale {
      */
     public static final String TZ_DEFAULT = "UTC";
     /**
+     * Default language.
+     */
+    public static final String LANG_DEFAULT = "la";
+    /**
      * Language cookie name.
      */
     public static final String LANG_COOKIE = "lang";
@@ -71,7 +75,7 @@ public class PlethonianCalendarLocale {
     private String checkLang(String lang) {
         if (lang == null) { return null; }
         return appInstance.getAvailableLocales().containsKey(lang)?
-                lang : "la";
+                lang : LANG_DEFAULT;
     }
     
     /**
@@ -125,16 +129,34 @@ public class PlethonianCalendarLocale {
     }
     
     /**
+     * Reads the locale from the context.
+     */
+    protected void readContextLocale() {
+        Locale ctxLocale = FacesContext.getCurrentInstance().getViewRoot()
+                    .getLocale();
+        locale = ((ctxLocale != null) &&
+                appInstance.getAvailableLocales()
+                        .containsKey(ctxLocale.getLanguage()))?
+                ctxLocale : new Locale(LANG_DEFAULT);
+    }
+    
+    /**
+     * Writes the context locale.
+     */
+    protected void writeContextLocale() {
+        FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
+    }
+    
+    /**
      * Initializes the language.
      */
     protected void initLang() {
         String lang = readCookie(LANG_COOKIE);
         if (lang != null) {
             locale = new Locale(checkLang(lang));
-            FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
+            writeContextLocale();
         } else {
-            locale = FacesContext.getCurrentInstance().getViewRoot()
-                    .getLocale();
+            readContextLocale();
         }
     }
     
@@ -172,7 +194,7 @@ public class PlethonianCalendarLocale {
     public void setLang(String lang) {
         if (lang == null) { return; }
         locale = new Locale(checkLang(lang));
-        FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
+        writeContextLocale();
         writeCookie(LANG_COOKIE, lang);
     }
     

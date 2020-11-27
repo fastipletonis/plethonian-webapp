@@ -47,7 +47,7 @@ public class PageRequest {
     /**
      * Date regex.
      */
-    private static final String DATE_REGEX = "\\d{4}-\\d{2}\\d{2}";
+    private static final String DATE_REGEX = "\\d{4}-\\d{2}-\\d{2}";
     /**
      * Date regex.
      */
@@ -114,6 +114,20 @@ public class PageRequest {
     }
     
     /**
+     * Returns today's date according to the given timezone. If a
+     * <code>null</code> value is provided, the default one is assumed.
+     * 
+     * @param zoneId the timezone or <code>null</code>
+     * 
+     * @return today's date
+     */
+    protected LocalDate getZonedToday(ZoneId zoneId) {
+        zoneId = (zoneId != null)? zoneId : 
+                ZoneId.of(PlethonianCalendarLocale.TZ_DEFAULT);
+        return LocalDate.now(zoneId);
+    }
+    
+    /**
      * Loads the current month matrix.
      */
     protected void loadCurrentMonthMatrix() {
@@ -137,7 +151,7 @@ public class PageRequest {
             zoneId = localeInstance.getZoneId();
         }
         
-        LocalDate now = LocalDate.now(zoneId);
+        LocalDate now = getZonedToday(zoneId);
         
         if ((today == null) || !today.getGregorianDate().equals(now)) {
             today = calendar.getDay(now);

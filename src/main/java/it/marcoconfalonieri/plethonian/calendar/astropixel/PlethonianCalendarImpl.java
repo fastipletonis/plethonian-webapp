@@ -19,20 +19,15 @@
 
 package it.marcoconfalonieri.plethonian.calendar.astropixel;
 
-import it.marcoconfalonieri.plethonian.calendar.MonthlyFestivity;
 import it.marcoconfalonieri.plethonian.calendar.PlethonianCalendar;
 import it.marcoconfalonieri.plethonian.calendar.PlethonianDay;
 import it.marcoconfalonieri.plethonian.calendar.PlethonianMonth;
-import it.marcoconfalonieri.plethonian.calendar.PlethonianMonthName;
-import it.marcoconfalonieri.plethonian.calendar.PlethonianWeekName;
 import it.marcoconfalonieri.plethonian.calendar.PlethonianYear;
+
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
-
-import java.util.HashMap;
-import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.SortedMap;
 import java.util.SortedSet;
@@ -45,9 +40,7 @@ import java.util.stream.Stream;
  * Implementation of the Plethonian calendar through AstroPixel's data.
  */
 public class PlethonianCalendarImpl implements PlethonianCalendar {
-    private static final String[] DAY_LABELS = { "new", "2", "3", "4", "5", "6",
-        "7", "8", "7", "6", "5", "4", "3", "2", "half", "2", "3", "4", "5", "6",
-        "7", "8", "7", "6", "5", "4", "3", "2", "old", "oldnew" };
+    
     /**
      * AstroPixel's moon phases table.
      */
@@ -66,59 +59,13 @@ public class PlethonianCalendarImpl implements PlethonianCalendar {
      * AstroPixel's sun solstices and equinoxes table layout.
      */
     private static final int[] POS_SUN_SOLSTICES = {1, 11, 29, 47, 65};
-    /**
-     * Map of the plethonian months numeric values.
-     */
-    private static final Map<Integer, PlethonianMonthName> MONTHS
-            = new HashMap<>();
-    /**
-     * Map of the plethonian week numeric values.
-     */
-    private static final Map<Integer, PlethonianWeekName> WEEKS
-            = new HashMap<>();
-    /**
-     * Map of the plethonian festivities in the month.
-     */
-    private static final Map<Integer, MonthlyFestivity> FESTIVITIES
-            = new HashMap<>();
+    
     /**
      * Map of the years.
      */
     private final SortedSet<PlethonianYear> yearsSet = new TreeSet<>();
 
-    /**
-     * Initializes the map of the months.
-     */
-    private static void initializeMonthsMap() {
-        for (PlethonianMonthName m : PlethonianMonthName.values()) {
-            MONTHS.put(m.toInt(), m);
-        }
-    }
-
-    /**
-     * Initializes the map of the weeks.
-     */
-    private static void initializeWeeksMap() {
-        for (PlethonianWeekName w : PlethonianWeekName.values()) {
-            WEEKS.put(w.toInt(), w);
-        }
-    }
-
-    /**
-     * Initializes the map of the festivities.
-     */
-    private static void initializeFestivitiesMap() {
-        for (MonthlyFestivity f : MonthlyFestivity.values()) {
-            FESTIVITIES.put(f.getDay(), f);
-        }
-    }
-
-    // Initializes the required static maps.
-    static {
-        initializeMonthsMap();
-        initializeWeeksMap();
-        initializeFestivitiesMap();
-    }
+    
 
     /**
      * Reads a table from a resource.
@@ -140,7 +87,8 @@ public class PlethonianCalendarImpl implements PlethonianCalendar {
      *
      * @throws IOException in case of errors reading the resource or the data
      */
-    private SortedMap<ZonedDateTime, LunarMonth> createMonthsMap() throws IOException {
+    private SortedMap<ZonedDateTime, LunarMonth> createMonthsMap()
+            throws IOException {
         SortedMap<ZonedDateTime, LunarMonth> monthsMap = new TreeMap<>();
         String[][] moonPhases = readTable(RES_MOON_PHASES, POS_MOON_PHASES);
         try {
@@ -172,60 +120,30 @@ public class PlethonianCalendarImpl implements PlethonianCalendar {
         }
         return solsticesSet;
     }
-
-    /**
-     * Creates a Plethonian day from the parameters.
-     * 
-     * @param day the day of the month
-     * @param month the Plethonian month name
-     * @param dayOfYear the day of the year
-     * @param gregorianDate the Gregorian date for the day
-     * @param remDayFlag the flag value for remembrance day
-     * 
-     * @return a PlethonianDay object with the required information
-     */
-    private PlethonianDay createDay(int day, PlethonianMonthName month,
-            int dayOfYear, LocalDate gregorianDate, boolean remDayFlag) {
-        // Calculates the week
-        int week = (day - 1) / 7 + 1;
-        
-        PlethonianDay pd = new PlethonianDay();
-        pd.setDayOfMonth(day);
-        pd.setDayOfYear(dayOfYear);
-        pd.setDefunctDay(remDayFlag);
-        pd.setWeek(WEEKS.get(week));
-        pd.setMonth(month);
-        pd.setGregorianDate(gregorianDate);
-        pd.setMonthFestivity(FESTIVITIES.get(day));
-        pd.setLabel(DAY_LABELS[day - 1]);
-        return pd;
-    }
     
     /**
      * Creates a set of days for the current month.
      * 
      * @param yearDay the day of the year this month starts with
      * @param days number of days
+     * @param numMonths the number of months in the year
      * @param firstDay the first day's Gregorian date
      * @param remDay the value for the remembrance day
-     * @param monthName the name of the month
+     * @param month the month
      * 
      * @return the set of days with the required information
      */
     private SortedSet<PlethonianDay> createMonthDaysSet(int yearDay, int days,
-            LocalDate firstDay, int remDay, PlethonianMonthName monthName) {
+            int numMonths, LocalDate firstDay, int month) {
         SortedSet<PlethonianDay> daysSet = new TreeSet<>();
         LocalDate gregorianDay = firstDay;
         for (int day = 1; day <= days; day++) {
-            boolean remDayFlag = (remDay == yearDay);
-            PlethonianDay pd = createDay(day, monthName, yearDay,
-                    gregorianDay, remDayFlag);
+            PlethonianDay pd = DateCreator.createDay(day, month, yearDay,
+                    numMonths, days, gregorianDay);
             daysSet.add(pd);
             yearDay++;
             gregorianDay = gregorianDay.plusDays(1);
         }
-        // The last day of the month has ALWAYS the old/new label.
-        daysSet.last().setLabel(DAY_LABELS[29]);
         return daysSet;
     }
     
@@ -234,6 +152,7 @@ public class PlethonianCalendarImpl implements PlethonianCalendar {
      * 
      * @param firstDay the first day of the month
      * @param days the number of days in the month
+     * @param numMonths the number of months in the year
      * @param monthCount the numeric value of the month, starting from 1
      * @param yearStartDay the day of the year at the beginning of the month
      * @param remDay the remembrance day in the Plethonian calendar
@@ -241,12 +160,12 @@ public class PlethonianCalendarImpl implements PlethonianCalendar {
      * @return a PlethonianMonth object
      */
     private PlethonianMonth createMonth(LocalDate firstDay, int days,
-            int monthCount, int yearStartDay, int remDay) {
+            int numMonths, int monthCount, int yearStartDay) {
         PlethonianMonth month = new PlethonianMonth();
-        month.setMonth(MONTHS.get(monthCount));
+        month.setMonth(DateCreator.getMonth(monthCount));
         month.setFirstDay(firstDay);
-        month.setDays(createMonthDaysSet(yearStartDay, days, firstDay, remDay,
-                month.getMonth()));
+        month.setDays(createMonthDaysSet(yearStartDay, days, numMonths,
+                firstDay, monthCount));
         return month;
     }
 
@@ -268,8 +187,8 @@ public class PlethonianCalendarImpl implements PlethonianCalendar {
         year.setDays(year.getFirstDay().until(next.toLocalDate().plusDays(1))
                 .getDays());
         
-        final int remDay = year.getDays() - 2;
         Consumer<ZonedDateTime> mc = new Consumer<ZonedDateTime>() {
+            int numMonths = (year.getDays() > 360)? 13 : 12;
             int monthCounter = 1;
             LocalDate firstOfMonth = null;
             int startDay = 1;
@@ -284,7 +203,7 @@ public class PlethonianCalendarImpl implements PlethonianCalendar {
                     int days = (int) ChronoUnit.DAYS.between(firstOfMonth,
                             nextFirstOfMonth);
                     PlethonianMonth month = createMonth(firstOfMonth, days,
-                            monthCounter, startDay, remDay);
+                            numMonths, monthCounter, startDay);
                     year.getMonths().add(month);
                     firstOfMonth = nextFirstOfMonth;
                     monthCounter++;
@@ -382,9 +301,7 @@ public class PlethonianCalendarImpl implements PlethonianCalendar {
     @Override
     public PlethonianMonth getMonth(LocalDate date) {
         PlethonianYear year = getYear(date);
-        for (PlethonianMonth m : year.getMonths()) {
-            System.out.println(m.getMonth() + " " + m.getFirstDay());
-        }
+
         PlethonianMonth model = new PlethonianMonth();
         model.setFirstDay(date);
         
@@ -398,7 +315,8 @@ public class PlethonianCalendarImpl implements PlethonianCalendar {
                 month = year.getMonths().headSet(model).last();
             }
         } catch (NoSuchElementException ex) {
-            String msg = "Cannot find a Plethonian month for " + date.toString();
+            String msg = "Cannot find a Plethonian month for "
+                    + date.toString();
             
             throw new IllegalArgumentException(msg, ex);
         }

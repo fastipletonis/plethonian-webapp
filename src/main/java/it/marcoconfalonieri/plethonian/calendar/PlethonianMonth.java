@@ -94,8 +94,7 @@ public class PlethonianMonth implements Serializable, Comparable {
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof PlethonianMonth)) {
-            throw new IllegalArgumentException(
-                    "Argument must be of PlethonianMonth type.");
+            return false;
         }
         PlethonianMonth pm = (PlethonianMonth) obj;
         return firstDay.equals(pm.firstDay);

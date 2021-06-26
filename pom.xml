@@ -49,9 +49,14 @@
             <artifactId>weld-servlet-shaded</artifactId>
             <version>3.1.5.Final</version>
         </dependency>
+        <dependency>
+            <groupId>jstl</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
     </dependencies>
 
-    <build>
+    <build>   
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -71,6 +76,12 @@
                 <version>2.3</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <webResources>
+                        <resource>
+                            <filtering>true</filtering>
+                            <directory>src/main/resources/filtered/</directory>                          
+                        </resource>
+                    </webResources>
                 </configuration>
             </plugin>
             <plugin>

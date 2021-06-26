@@ -48,18 +48,13 @@ public class PlethonianDay implements Serializable, Comparable {
      */
     private PlethonianWeekName week;
     /**
-     * Flag that indicates if it's the Plethonian day dedicated to Pluto and the
-     * defunct.
-     */
-    private boolean defunctDay;
-    /**
      * Gregorian date.
      */
     private LocalDate gregorianDate;
     /**
      * Monthly festivity.
      */
-    private MonthlyFestivity monthFestivity;
+    private Festivity festivity;
     /**
      * Day label.
      */
@@ -137,24 +132,6 @@ public class PlethonianDay implements Serializable, Comparable {
         this.week = week;
     }
 
-    /**
-     * Check if the day is marked as defunct day.
-     * 
-     * @return the defunctDay field
-     */
-    public boolean isDefunctDay() {
-        return defunctDay;
-    }
-
-    /**
-     * Set or clear the defunctDay flag.
-     * 
-     * @param defunctDay the defunctDay field to set
-     */
-    public void setDefunctDay(boolean defunctDay) {
-        this.defunctDay = defunctDay;
-    }
-
     @Override
     public int compareTo(Object obj) {
         if (!(obj instanceof PlethonianDay)) {
@@ -168,8 +145,7 @@ public class PlethonianDay implements Serializable, Comparable {
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof PlethonianDay)) {
-            throw new IllegalArgumentException(
-                    "Argument must be of PlethonianDay type.");
+            return false;
         }
         PlethonianDay pd = (PlethonianDay) obj;
         return gregorianDate.equals(pd.gregorianDate);
@@ -201,21 +177,21 @@ public class PlethonianDay implements Serializable, Comparable {
     }
 
     /**
-     * Getter for the monthly festivity.
+     * Getter for the festivity.
      * 
-     * @return the monthFestivity
+     * @return the festivity or <code>null</code>
      */
-    public MonthlyFestivity getMonthFestivity() {
-        return monthFestivity;
+    public Festivity getFestivity() {
+        return festivity;
     }
 
     /**
-     * Setter for the monthly festivity.
+     * Setter for the festivity.
      * 
-     * @param monthFestivity the monthFestivity to set
+     * @param festivity the festivity to set
      */
-    public void setMonthFestivity(MonthlyFestivity monthFestivity) {
-        this.monthFestivity = monthFestivity;
+    public void setFestivity(Festivity festivity) {
+        this.festivity = festivity;
     }
 
     /**

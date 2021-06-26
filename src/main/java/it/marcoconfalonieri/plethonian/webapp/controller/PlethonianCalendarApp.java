@@ -19,14 +19,20 @@
 
 package it.marcoconfalonieri.plethonian.webapp.controller;
 
+import it.marcoconfalonieri.plethonian.calendar.Festivity;
 import it.marcoconfalonieri.plethonian.calendar.PlethonianCalendar;
 import it.marcoconfalonieri.plethonian.calendar.PlethonianDay;
 import it.marcoconfalonieri.plethonian.calendar.PlethonianMonth;
 import it.marcoconfalonieri.plethonian.calendar.PlethonianWeekName;
 import it.marcoconfalonieri.plethonian.calendar.PlethonianYear;
 import it.marcoconfalonieri.plethonian.calendar.astropixel.PlethonianCalendarImpl;
+import it.marcoconfalonieri.plethonian.webapp.util.StaticInfo;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
@@ -38,29 +44,75 @@ import javax.inject.Named;
 /**
  * Application-scoped bean.
  */
-@ApplicationScoped
 @Named("app")
+@ApplicationScoped
 public class PlethonianCalendarApp {
+    
+    /**
+     * Labels associated to the day number.
+     */
+    private static final String[] DAY_LABELS = { "new", "2", "3", "4", "5", "6",
+        "7", "8", "7", "6", "5", "4", "3", "2", "half", "2", "3", "4", "5", "6",
+        "7", "8", "7", "6", "5", "4", "3", "2", "old", "oldnew" };
+    /**
+     * Map of available locales.
+     */
+    private static final Map<String, String> AVAILABLE_LOCALES =
+            new LinkedHashMap<>();
 
     /**
-     * The calendar object.
+     * WARManifest instance.
+     */
+    private StaticInfo staticInfo;
+    /**
+     * The calendar implementation.
      */
     private PlethonianCalendar calendar;
 
+    /**
+     * The current day.
+     */
     private PlethonianDay today;
 
+    /**
+     * The current month.
+     */
     private PlethonianMonth currentMonth;
     
+    /**
+     * The current year.
+     */
     private PlethonianYear currentYear;
 
-    private final SortedMap<PlethonianWeekName, SortedSet<PlethonianDay>> currentMonthMatrix = new TreeMap<>();
+    /**
+     * The available timezones.
+     */
+    private final Set<String> availableTimeZones = new TreeSet<>();
+    
+    /**
+     * The map with the days of the current month ordered by week.
+     */
+    private final SortedMap<PlethonianWeekName, SortedSet<PlethonianDay>>
+            currentMonthMatrix = new TreeMap<>();
 
+    static {
+        AVAILABLE_LOCALES.put("la", "Latine");
+        AVAILABLE_LOCALES.put("it", "Italiano");
+        AVAILABLE_LOCALES.put("en", "English");
+        AVAILABLE_LOCALES.put("sv", "Svenska");
+        AVAILABLE_LOCALES.put("lij", "Lìgure");
+    }
+    
     /**
      * Loads the current month matrix.
      */
     protected void loadCurrentMonthMatrix() {
-        getCurrentMonthMatrix().entrySet().forEach(pair -> pair.getValue().clear());
-        currentMonth.getDays().forEach(day -> getCurrentMonthMatrix().get(day.getWeek()).add(day)
+        currentMonthMatrix.entrySet().forEach(
+                pair -> pair.getValue().clear()
+        );
+        
+        currentMonth.getDays().forEach(
+                day -> getCurrentMonthMatrix().get(day.getWeek()).add(day)
         );
     }
 
@@ -90,6 +142,13 @@ public class PlethonianCalendarApp {
      * Constructor.
      */
     public PlethonianCalendarApp() {
+        availableTimeZones.addAll(ZoneId.getAvailableZoneIds());
+        availableTimeZones.removeIf(
+                tz -> !(
+                        tz.equals(PlethonianCalendarLocale.TZ_DEFAULT) ||
+                        tz.contains("/")
+                )
+        );
         initializeCurrentMonthMatrix();
     }
 
@@ -98,6 +157,8 @@ public class PlethonianCalendarApp {
      */
     @PostConstruct
     public void initialize() {
+        staticInfo = StaticInfo.getInstance();
+        
         try {
             calendar = new PlethonianCalendarImpl();
         } catch (IOException ex) {
@@ -153,5 +214,40 @@ public class PlethonianCalendarApp {
     public PlethonianYear getCurrentYear() {
         updateData();
         return currentYear;
+    }
+    
+    /**
+     * Reads the version from the MANIFEST file.
+     * 
+     * @return the version
+     */
+    public String getVersion() {
+        return staticInfo.getVersion();
+    }
+    
+    /**
+     * Returns the day label.
+     * 
+     * @param day the day for which finding the label.
+     * 
+     * @return the label
+     */
+    public String getDayLabel(PlethonianDay day) {
+        int labelIndex = Festivity.INTROSPECTION.equals(day.getFestivity())? 29
+            : day.getDayOfMonth() - 1;
+        return DAY_LABELS[labelIndex];
+    }
+
+    /**
+     * Returns a list of available time zone IDs.
+     * 
+     * @return the available time zones
+     */
+    public Set<String> getAvailableTimeZones() {
+        return availableTimeZones;
+    }
+    
+    public Map<String, String> getAvailableLocales() {
+        return AVAILABLE_LOCALES;
     }
 }

@@ -225,11 +225,18 @@ public class PageRequestTest {
     @Test
     public void testSetDate() {
         System.out.println("setDate");
-        String strDate = TEST_DATE2;
-        PageRequest instance = createPageRequest();
-        instance.setDate(strDate);
-        String result = instance.getDate();
-        assertEquals(strDate, result);        
+        String[] strDate = {TEST_DATE2, null, "aaaa", "1000-01-02",
+            "3000-01-29", "2020-02-31"
+        };
+        String[] expDate = {TEST_DATE2, TEST_TODAY, TEST_TODAY, TEST_TODAY,
+            TEST_TODAY, TEST_TODAY
+        };
+        for (int i = 0; i < strDate.length; i++) {
+            PageRequest instance = createPageRequest();
+            instance.setDate(strDate[i]);
+            String result = instance.getDate();
+            assertEquals(expDate[i], result);
+        }
     }
 
     /**
